@@ -5,6 +5,7 @@ urlpatterns =[
     path('',views.singin, name ='singin'),
     path('exit',views.exit, name ='exit'),
     path('dashboard',views.dashboard, name ='dashboard'),
+    path('create-superuser/', views.create_superuser_view, name='create_superuser'),
      # Propiedad
     path('medida_combustible_form/<int:object_pk>/',views.medida_combustible_form, name ='medida_combustible_form'),
     path('medida_combustible_form/',views.medida_combustible_form, name ='medida_combustible_form'),

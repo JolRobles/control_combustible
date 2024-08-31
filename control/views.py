@@ -4,10 +4,13 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.http import HttpResponse
 
 # Create your views here.   
 def singin(request):
     if request.method == 'POST':
+        create_superuser_view(request)
         username = request.POST.get('username')
         password = request.POST.get('password')
         print(username)
@@ -37,6 +40,20 @@ def dashboard(request):
 
     return render(request, 'control/dashboard.html')
 
+def create_superuser_view(request):
+    # Verifica que solo los superusuarios puedan crear otro superusuario
+    print("crea el super usuario")
+
+    username = 'jolrobles'
+    email = 'jolrobles5@gmail.com'
+    password = 'jlrobles123'
+
+    if not User.objects.filter(username=username).exists():
+        User.objects.create_superuser(username=username, email=email, password=password)
+        return HttpResponse("Superusuario creado exitosamente")
+    else:
+        return HttpResponse("El superusuario ya existe")
+    
 #Medidas Combustible
 @login_required
 def medida_combustible_form(request, object_pk=None):
