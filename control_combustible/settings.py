@@ -80,9 +80,12 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'control_combustible',
-        'USER': 'postgres',
-        'PASSWORD': 'root', #Yorch
-        'HOST': 'localhost',
+        # 'USER': 'postgres',
+        'USER': 'ccombustible',
+        # 'PASSWORD': 'root', #Yorch
+        'PASSWORD': 'fTqjNBTrrefQVjLvTlEcaMiFqNO4Y9zA', #Yorch
+        # 'HOST': 'localhost',
+        'HOST': 'dpg-cr9aiu8gph6c73csca5g-a',
         'PORT': 5432,
     }
 }
