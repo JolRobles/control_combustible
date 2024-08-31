@@ -10,7 +10,7 @@ from django.http import HttpResponse
 # Create your views here.   
 def singin(request):
     if request.method == 'POST':
-        create_superuser_view(request)
+        # create_superuser_view(request)
         username = request.POST.get('username')
         password = request.POST.get('password')
         print(username)
