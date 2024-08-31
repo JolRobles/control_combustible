@@ -1,0 +1,41 @@
+{% extends 'control/base.html' %}
+{% load static %}
+{% load bootstrap5  %}
+{% block title %}
+Dashboard
+{% endblock title %}
+
+
+{% block content %}
+  {{ block.super }}
+        <section class="tab-components">
+          <div class="container-fluid">
+            <div class="title-wrapper pt-30">
+                {% bootstrap_messages %}
+            </div>
+            <div class="col-lg-12">
+                <div class="card-style mb-30">
+                    <h6 class="mb-25">{{title}}</h6>
+                    <div class="row">
+                        <div class="col-lg-12">
+                          <div class="card-style mb-30">
+                                <form method="POST" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    {% for field in ruta_form %}
+                                    {% bootstrap_field field %}
+                                    {% endfor %}
+                                    <div class="panel-footer text-center">
+                                        <a href="{% url 'ruta_list'  %}" class="btn btn-primary">Volver</a>
+                                    <button type="submit" class="btn btn-success">
+                                        Guardar
+                                    </button>
+                                    </div>
+                                </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+        </section>
+{% endblock content %}

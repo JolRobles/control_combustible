@@ -1,0 +1,48 @@
+{% extends 'control/base.html' %}
+{% load static %}
+{% load bootstrap5  %}
+
+{% block title %}
+Dashboard
+{% endblock title %}
+
+
+{% block content %}
+  {{ block.super }}
+        <section class="tab-components">
+          <div class="container-fluid">
+            <div class="title-wrapper pt-30">
+              
+            </div>
+            <div class="col-lg-12">
+                <div class="card-style mb-30">
+                    <h6 class="mb-25">{{title}}</h6>
+                    <div class="row">
+                        <div class="col-lg-12">
+                          <div class="card-style mb-30">
+                                <form method="POST" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <div class="row">
+                                        {% for field in informe_form %}
+                                        <div class="col-md-4">
+                                            {% bootstrap_field field layout='vertical' %}
+                                        </div>
+                                        {% endfor %}
+
+                                    </div>
+                                    <br>
+                                    <div class="panel-footer text-center">
+                                    <button type="submit" class="btn btn-info">
+                                        Generar Informe
+                                    </button>
+                                    </div>
+                                </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+        </section>
+        
+{% endblock content %}

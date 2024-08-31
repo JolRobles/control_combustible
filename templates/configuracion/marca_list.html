@@ -1,0 +1,73 @@
+{% extends 'control/base.html' %}
+{% load static %}
+{% load bootstrap5  %}
+
+{% block title %}
+Dashboard
+{% endblock title %}
+
+
+{% block content %}
+  {{ block.super }}
+        <section class="tab-components">
+          <div class="container-fluid">
+            <div class="title-wrapper pt-30">
+                {% bootstrap_messages %}
+            </div>
+            <div class="col-lg-12">
+                <div class="card-style mb-30">
+                    <h6 class="mb-25">Marcas de Vehículo</h6>
+                    <div class="row">
+                        <div class="col-lg-12">
+                          <div class="card-style mb-30">
+
+                            <a href="{% url 'marca_form'  %}" class="btn btn-primary">Crear marca de vehículo</a>
+                            <br>
+                            <div class="table-wrapper table-responsive">
+                              <table class="table">
+                                <thead>
+                                   
+                                  <tr>
+                                    <th>
+                                      <h6>Nombre</h6>
+                                    </th>
+                                    <th>
+                                      <h6>Acciones</h6>
+                                    </th>
+                                  </tr>
+                                  
+                                </thead>
+                                <tbody>
+                                    {% for object in marcas %}
+                                  <tr>
+                                    <td>
+                                      <p>{{object.nombre}}</p>
+                                    </td>
+                                    <td>
+                                      <!-- Edit -->
+                                      <a href="{% url 'marca_form' object.pk %}">
+                                        <span class="text-primary lni lni-pencil-alt" title="Editar"></span>
+                                      </a>
+                                      <!-- Delete -->
+                                      <a href="{% url 'marca_delete' object.pk %}" >
+                                        <span class="text-danger lni lni-trash-can" title="Eliminar"></span>
+                                      </a>
+                                    </td>
+                                  </tr>
+                                  {% endfor %}
+                                  
+                                </tbody>
+                              </table>
+                              <!-- end table -->
+                            </div>
+                          </div>
+                          <!-- end card -->
+                        </div>
+                        <!-- end col -->
+                      </div>
+                    
+                </div>
+            </div>
+        </div>
+        </section>
+{% endblock content %}

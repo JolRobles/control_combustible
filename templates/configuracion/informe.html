@@ -1,0 +1,195 @@
+{% extends 'control/base.html' %}
+{% load static %}
+{% load bootstrap5  %}
+
+{% block title %}
+Orden Combustible
+{% endblock title %}
+{% block stylesheets %}
+{{block.super}}
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        border-radius: 20px;
+    }
+    th, td {
+        border: 1px solid black;
+        padding: 5px !important;
+        text-align: left;
+    }
+</style>
+<style>
+    @media print {
+        @page {
+            margin: 0; /* Elimina los márgenes de la página */
+        }
+        body {
+            margin: 1cm; /* Añade márgenes alrededor del contenido impreso */
+        }
+    }
+</style>
+
+
+
+{% endblock stylesheets %}
+
+
+{% block content %}
+  {{ block.super }}
+  
+        <section class="tab-components">
+          <div class="container-fluid">
+            <div class="title-wrapper pt-30">
+                {% bootstrap_messages %}
+            </div>
+            <h6 class="mb-25">Orden de Combustible</h6>
+            <div class="col-lg-12" id="print-section">
+                <div class="card-style mb-30">
+                    <div class="row">
+                        <div class="col-md-2 col-sm-12 text-center">
+                            <img src="https://univercimas.com/wp-content/uploads/2021/04/Universidad-Nacional-de-Loja-UNL.png" style="width: 130px; height: 130px;" alt="">
+                        </div>
+                        <div class="col-md-10  col-sm-12 text-center">
+                            <h1>UNIVERSIDAD NACIONAL DE LOJA</h1>
+                            <h4>UNIDAD DE UTILIZACIÓN, MANTENIMIENTO, MOVILIZACIÓN Y CONTROL DE VEHÍCULOS</h4>
+                            <h4>CONTROL Y MANTENIMIENTO DE VEHÍCULOS, FEBRERO 2024</h4>
+                            <h5>GASOLINA ECO PAIS</h5>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row" style="padding-left: 20px;">
+                        <table class="table" id="informeCombustible" >
+                            <thead>
+                                <tr>
+                                    <th class="text-center"><h5>VEH./PLACA</h5></th>
+                                    <th class="text-center"><h5>GL. SOLIC.</h5></th>
+                                    <th class="text-center"><h5>KILOMETRAJE</h5></th>
+                                    <th class="text-center"><h5>Nro. ORDEN</h5></th>
+                                    <th class="text-center"><h5>RUTA/SALVC.</h5></th>
+                                    <th class="text-center"><h5>FECHA/ ORDEN</h5></th>
+                                    <th class="text-center"><h5>Nro. TICKET</h5></th>
+                                    <th class="text-center"><h5>FCH./TICKET</h5></th>
+                                    <th class="text-center"><h5>GL. DESPACH.</h5></th>
+                                    <th class="text-center"><h5>VALOR</h5></th>
+                                    <th class="text-center"><h5>CONDUCTOR</h5></th>   
+                                </tr>
+                                
+                            </thead>
+                            <tbody>
+                                {% for orden in ordenes %}
+                                <tr>
+                                    <td class="text-center">{{orden.vehiculo}} {% if orden.conductor %} {% else %} {{tipo_medida}} {%endif%}</td>
+                                    <td class="text-center">{{orden.galones_solicitados}}</td>
+                                    <td class="text-center">{{orden.kilometraje}}</td>
+                                    <td class="text-center">{{orden.numero_orden}}</td>
+                                    <td class="text-center">{{orden.ruta}}</td>
+                                    <td class="text-center">{{orden.fecha_orden}}</td>
+                                    <td class="text-center">{{orden.vehiculo}}</td>
+                                    <td class="text-center">{{orden.fecha_ticket}}</td>
+                                    <td class="text-center" id="valor_galones">{{orden.galones_despachados}}</td>
+                                    <td class="text-center" id="valor_dinero">{{orden.valor}}</td>
+                                    <td class="text-center">{{orden.conductor}} {% if orden.conductor %} {% else %} {{observacion}} {%endif%}</td>
+                                </tr>
+                                {% endfor %}
+                                <tr>
+                                    <td class="text-center" colspan="8">TOTALES</td>
+                                    <td class="text-center"><h4 id="total_galones"></h4></td>
+                                    <td class="text-center"><h4 id="total_dinero"></h4></td>
+                                    <td class="text-center"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="row" style="padding: 20px;">
+                       <div class="col-md-12 col-sm-12 text-center">---------------------- 
+                            <h5>Abg.Diego Fernando Hinojosa Ochoa</h5>
+                            <H4>ADMINISTRADOR DEL CONTRATO	</H4>
+                        </div>
+                    </div>   
+                </div>
+            </div>
+            <div class="row">
+                <div class="panel-footer text-center">
+                    <button  class=" btn btn-info" onclick="printSection()">Imprimir Informe</button>
+                    <button id="exportarBtn" class="btn btn-success">Descargar Excel</button>
+                </div>
+
+            </div>
+        </div>
+        </section>
+{% endblock content %}
+{% block scripts %}
+{{block.super}}
+<script>
+    function printSection() {
+        var printContent = document.getElementById('print-section').innerHTML;
+        var originalContent = document.body.innerHTML;
+
+        document.body.innerHTML = printContent;
+        window.print();
+        document.body.innerHTML = originalContent;
+    }
+</script>
+<script>
+    calcularTotales()
+    function calcularTotales() {
+        galones = document.querySelectorAll("td[id='valor_galones']")
+        dinero = document.querySelectorAll("td[id='valor_dinero']")
+        let suma_galones = 0
+        let suma_dinero = 0.00
+        for (let i = 0; i < galones.length; i++) {
+            suma_galones += parseFloat(galones[i].textContent)
+            var valor_dinero = dinero[i].textContent.replace(',', '.');
+            suma_dinero = suma_dinero + parseFloat(valor_dinero)
+        }
+        $total_galones = document.getElementById('total_galones')
+        $total_dinero = document.getElementById('total_dinero')
+
+        $total_dinero.textContent = "$" +suma_dinero.toFixed(2)
+        $total_galones.textContent =  suma_galones
+    }
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+        
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+<script>
+
+</script>
+<script>
+    function convertirComasAPuntos() {
+        var tabla = document.getElementById('informeCombustible');
+        var celdas = tabla.getElementsByTagName('td'); // Obtiene todas las celdas <td>
+
+        for (var i = 0; i < celdas.length; i++) {
+            var celda = celdas[i];
+            var valor = celda.innerText;
+
+            // Verifica si el valor contiene una coma
+            if (valor.includes(',')) {
+                // Reemplaza la coma por un punto
+                var nuevoValor = valor.replace(',', '.');
+
+                // Actualiza el contenido de la celda
+                celda.innerText = nuevoValor;
+            }
+        }
+    }
+
+    document.getElementById('exportarBtn').addEventListener('click', function() {
+        // Convierte comas a puntos antes de exportar
+        convertirComasAPuntos();
+
+        // Obtener la tabla HTML
+        var tabla = document.getElementById('informeCombustible');
+
+        // Convertir la tabla en una hoja de cálculo
+        var wb = XLSX.utils.table_to_book(tabla, {sheet: "Datos"});
+
+        // Exportar el libro de trabajo a un archivo Excel
+        XLSX.writeFile(wb, 'tabla_datos.xlsx');
+    });
+</script>
+
+{% endblock scripts %}

@@ -1,0 +1,146 @@
+{% extends 'control/base.html' %}
+{% load static %}
+{% load bootstrap5  %}
+
+{% block title %}
+Orden Combustible
+{% endblock title %}
+{% block stylesheets %}
+{{block.super}}
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        border-radius: 20px;
+    }
+    th, td {
+        border: 1px solid black;
+        padding: 5px !important;
+        text-align: left;
+    }
+</style>
+<style>
+    @media print {
+        @page {
+            margin: 0; /* Elimina los márgenes de la página */
+        }
+        body {
+            margin: 1cm; /* Añade márgenes alrededor del contenido impreso */
+        }
+    }
+</style>
+
+
+
+{% endblock stylesheets %}
+
+
+{% block content %}
+  {{ block.super }}
+  
+        <section class="tab-components">
+          <div class="container-fluid">
+            <div class="title-wrapper pt-30">
+                {% bootstrap_messages %}
+            </div>
+            <h6 class="mb-25">Orden de Combustible</h6>
+            <div class="col-lg-12" >
+                <div class="card-style mb-30" id="print-section">
+                    <div class="row">
+                        <div class="col-md-2 col-sm-12 text-center">
+                            <img src="https://univercimas.com/wp-content/uploads/2021/04/Universidad-Nacional-de-Loja-UNL.png" style="width: 100px; height: 100px;" alt="">
+                        </div>
+                        <div class="col-md-10  col-sm-12 text-center">
+                            <h2>UNIVERSIDAD NACIONAL DE LOJA</h2>
+                            <h4>DIRECCIÓN ADMINISTRATIVA</h4>
+                            <h5>UNIDAD DE UTILIZACIÓN, MANTENIMIENTO, MOVILIZACIÓN Y CONTROL DE VEHÍCULOS</h5>
+                        </div>
+                    </div>
+                    <div class="row" style="padding: 20px;">
+                        <div class="col-md-6 col-sm-6 text-center">
+                            <h3>ORDEN DE COMBUSTIBLE</h3> 
+                        </div>
+                        <div class="col-md-6 col-sm-6 text-center">
+                            <h1 style="color: red;"> {{numero_orden}}</h1>
+                        </div>
+                    </div>
+                    <div class="row" style="padding-left: 20px;">
+                        <div class="col-md-12" style="font-weight: bold; color: black;">Loja, {{fecha_actual}} </div>
+                        <div class="col-md-12" style="font-weight: bold; color: black;">Gasolinera: ______________ </div>
+                        <div class="col-md-6 col-sm-6" style="font-weight: bold; color: black;">Ciudad: ______________ </div>
+                        <div class="col-md-6 col-sm-6" style="font-weight: bold; color: black;">Vehiculo Nro: ______________ </div>
+                        <div class="col-md-6 col-sm-6" style="font-weight: bold; color: black;">Marca: ______________ </div>
+                        <div class="col-md-6 col-sm-6" style="font-weight: bold; color: black;">Placa: {{orden_object.vehiculo.placa}} </div>
+                        <div class="col-md-12" style="font-weight: bold; color: black;">Área / Dependencia: ______________ </div>
+                        <div class="col-md-12" style="font-weight: bold; color: black;">Recorrido: {{orden_object.ruta}} </div>
+                        <div class="col-md-12" style="font-weight: bold; color: black;">A la orden del Sr.: {{orden_object.conductor}}</div>
+                        <div class="col-md-12" style="font-weight: bold; color: black;">Kilometraje actual: {{orden_object.kilometraje}} </div>
+                    </div>
+                    <br>
+                    <div class="row" style="padding-left: 20px;">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                    <th class="text-center">
+                                        <h5>CONCEPTO</h5>
+                                    </th>
+                                    <th class="text-center">
+                                        <h5>GALONES</h5>
+                                    </th>
+                                    <th class="text-center">
+                                        <h5>P. UNITARIO</h5>
+                                    </th>
+                                    <th class="text-center">
+                                        <h5>V. TOTAL</h5>
+                                    </th>
+                                    </tr>
+                                    
+                                </thead>
+                                <tbody>
+                                    {% for tipo_combustible in tipos_combustible %}
+                                    <tr>
+                                    <td class="text-center"><h5>{{tipo_combustible.nombre}}</h5></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    </tr>
+                                    {% endfor %}
+                                    <tr>
+                                        <td class="text-center"><h5>TOTAL</h5></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                    </div>
+                    <div class="row" style="padding: 20px;">
+                        <h5>Observaciones: {{orden_object.Observaciones}}</h5>
+                    </div>
+                    <div class="row" style="padding: 20px;">
+                       <div class="col-md-6 col-sm-6 text-center" style="margin-top: 10px;">---------------------- <h5>RESPONSABLE: UUMMCV</h5></div>
+                       <div class="col-md-6 col-sm-6 text-center" style="margin-top: 10px;">---------------------- <h5>CONDUCTOR</h5></div>
+                    </div>   
+                </div>
+            </div>
+            <div class="row">
+                <button  class="form-control btn btn-success" onclick="printSection()">Imprimir Orden de Combustible</button>
+            </div>
+        </div>
+        </section>
+{% endblock content %}
+{% block scripts %}
+{{block.super}}
+
+<script>
+    
+    function printSection() {
+        var printContent = document.getElementById('print-section').innerHTML;
+        var originalContent = document.body.innerHTML;
+
+        document.body.innerHTML = printContent;
+        window.print();
+        document.body.innerHTML = originalContent;
+    }
+</script>
+{% endblock scripts %}
