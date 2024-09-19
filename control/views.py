@@ -542,7 +542,7 @@ def generar_informe(request):
         if conductor:
             ordenes = ordenes.filter(conductor__pk=conductor)
         if combustible:
-            ordenes = ordenes.filter(combustible__pk=combustible)
+            ordenes = ordenes.filter(vehiculo__tipo_combustible__pk=combustible)
         if ruta:
             ordenes = ordenes.filter(ruta__pk=ruta)
 
