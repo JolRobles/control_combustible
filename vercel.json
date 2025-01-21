@@ -1,8 +1,7 @@
 {
     "version": 2,
     "builds": [
-      { "src": "manage.py", "use": "@vercel/python" },
-      { "src": "staticfiles/**/*", "use": "@vercel/static" }
+      { "src": "manage.py", "use": "@vercel/python" }
     ],
     "routes": [
       { "src": "/(.*)", "dest": "manage.py" },
@@ -10,6 +9,6 @@
     ],
     "env": {
       "RUN_MIGRATIONS": "true",
-      "DJANGO_SETTINGS_MODULE": "tu_proyecto.settings"
+      "DJANGO_SETTINGS_MODULE": "control_combustible.settings"
     }
   }
