@@ -1,15 +1,14 @@
 {
-"version": 2,
-"builds": [
-    {
-    "src": "api/index.py",
-    "use": "@vercel/python"
+    "version": 2,
+    "builds": [
+      { "src": "manage.py", "use": "@vercel/python" }
+    ],
+    "routes": [
+      { "src": "/(.*)", "dest": "manage.py" }
+    ],
+    "build": {
+      "env": {
+        "RUN_MIGRATIONS": "true"
+      }
     }
-],
-"routes": [
-    {
-    "src": "/(.*)",
-    "dest": "api/index.py"
-    }
-]
-}
+  }
