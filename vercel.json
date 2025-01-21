@@ -1,13 +1,15 @@
 {
     "version": 2,
     "builds": [
-        { "src": "manage.py", "use": "@vercel/python" }
+      { "src": "manage.py", "use": "@vercel/python" },
+      { "src": "staticfiles/**/*", "use": "@vercel/static" }
     ],
     "routes": [
-        { "src": "/(.*)", "dest": "manage.py" }
+      { "src": "/(.*)", "dest": "manage.py" },
+      { "src": "/static/(.*)", "dest": "/staticfiles/$1" }
     ],
     "env": {
-        "RUN_MIGRATIONS": "true",
-        "DJANGO_SETTINGS_MODULE": "control_combustible.settings"
+      "RUN_MIGRATIONS": "true",
+      "DJANGO_SETTINGS_MODULE": "tu_proyecto.settings"
     }
-}
+  }
