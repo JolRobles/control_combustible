@@ -76,19 +76,36 @@ WSGI_APPLICATION = 'control_combustible.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'control_combustible',
-        # 'USER': 'postgres',
-        'USER': 'ccombustible',
-        # 'PASSWORD': 'root', #Yorch
-        'PASSWORD': 'fTqjNBTrrefQVjLvTlEcaMiFqNO4Y9zA', #Yorch
-        # 'HOST': 'localhost',
-        'HOST': 'dpg-cr9aiu8gph6c73csca5g-a',
-        'PORT': 5432,
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'control_combustible',
+#         'USER': 'postgres',
+#         # 'USER': 'ccombustible',
+#         'PASSWORD': 'root', #Yorch
+#         # 'PASSWORD': 'fTqjNBTrrefQVjLvTlEcaMiFqNO4Y9zA', #Yorch
+#         'HOST': 'localhost',
+#         # 'HOST': 'dpg-cr9aiu8gph6c73csca5g-a',
+#         'PORT': 5432,
+#     }
+# }
+from urllib.parse import urlparse
+
+DATABASE_URL = os.getenv('DATABASE_URL')
+
+if DATABASE_URL:
+    url = urlparse(DATABASE_URL)
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': url.path[1:],
+            'USER': url.username,
+            'PASSWORD': url.password,
+            'HOST': url.hostname,
+            'PORT': url.port,
+        }
     }
-}
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
