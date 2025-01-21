@@ -90,6 +90,7 @@ WSGI_APPLICATION = 'control_combustible.wsgi.application'
 #     }
 # }
 from urllib.parse import urlparse
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'xgJWqPSR8k5C_mMEPFUtaP41pW1qIGUqp1TQGP_2gcYMCH8KE6yzIW9Av3ggoRWJqWE')
 
 DATABASE_URL = os.getenv('DATABASE_URL')
 
