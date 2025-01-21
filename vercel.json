@@ -1,15 +1,19 @@
 {
-"version": 2,
-"builds": [
-    {
-    "src": "wsgi.py",
-    "use": "@vercel/python"
-    }
-],
-"routes": [
-    {
-    "src": "/(.*)",
-    "dest": "wsgi.py"
-    }
-]
-}
+    "version": 2,
+    "builds": [
+      {
+        "src": "wsgi.py",
+        "use": "@vercel/python"
+      },
+      {
+        "src": "static/**/*",
+        "use": "@vercel/static"
+      }
+    ],
+    "routes": [
+      {
+        "src": "/(.*)",
+        "dest": "control_combustible/wsgi.py"
+      }
+    ]
+  }
